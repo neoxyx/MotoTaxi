@@ -43,7 +43,17 @@ var app = {
     }
 };
 
-(document).ready(function () {
+function onBackKeyDown() {
+    location.href = "#main";
+}
+;
+
+function onMenuKeyDown() {
+    navigator.app.close();
+}
+;
+
+(function () {
     // recolecta los valores en localstorage
     var dataUser = localStorage.user;
     var dataPassword = localStorage.password;
@@ -106,7 +116,7 @@ $("#logout").click(function () {
 });
 
 function onBackKeyDown() {
-    location.href = "#main";
+    $.mobile.changePage("#main");
 }
 ;
 
@@ -118,15 +128,15 @@ function onMenuKeyDown() {
 
 function geoloc() {
     var optn = {
-        frequency: 1000, enableHighAccuracy: true
+        frequency: 30000, enableHighAccuracy: true
     };
-    var watch = navigator.geolocation.watchPosition(showPosition, showError, optn);
+    var watchID = navigator.geolocation.watchPosition(showPosition, showError, optn);
     //loading();
 }
 
 function showPosition(position) {
     //hideLoading();
-
+    
     var altoVentana = window.innerHeight;
     var mapObj, googleMap;
     $('#Latitud').val(position.coords.latitude);
@@ -140,7 +150,7 @@ function showPosition(position) {
         mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     mapObj = document.getElementById('mapdiv');
-    googleMap = new google.maps.Map(mapObj, mapOptions);
+    googleMap =  new google.maps.Map(mapObj, mapOptions);
     var bike = 'img/bike.png';
     var markerOpt = {
         map: googleMap,
@@ -155,7 +165,7 @@ function showPosition(position) {
     geocoder.geocode({
         'latLng': googlePos
     }, function (results, status) {
-        if (status == google.maps.GeocoderStatus.OK) {
+        if (status === google.maps.GeocoderStatus.OK) {
             if (results[0]) {
                 var popOpts = {
                     content: results[0].formatted_address,
@@ -167,68 +177,57 @@ function showPosition(position) {
                     popup.open(googleMap);
                     city = results[0].address_components[3].long_name;
                 });
-                var marker = [];
-                var imgCarga = 'img/carga.png';
-                $.getJSON(get_base_url() + "user/Oferts/service?jsoncallback=?").done(function (requestServer) {
-                    if (requestServer["validation"] === "ok") {
-                        $.each(requestServer['service'], function (x, services) {
-                            var content = "Conductor: " + services.USRS_first_name + " " + services.USRS_last_name;
-                            var marker = new google.maps.Marker({
-                                position: new google.maps.LatLng(services.USRS_Lat, services.USRS_Long),
-                                map: map,
-                                icon: imgCarga,
-                                //animation: google.maps.Animation.DROP,
-                            });
-                            var infowindow = new google.maps.InfoWindow({
-                                content: content
-                            });
-                            google.maps.event.addListener(marker, "click", function () {
-                                infowindow.open(map, marker);
-                            });
-                        });
-                        cargas.push(marker);
-                    }
-                });
             } else {
                 alert('No se han encontrado resultados');
             }
         }
     });
-}
+    var imgContratados = 'img/carga.png';
+    $.getJSON(get_base_url() + "user/Oferts/services?jsoncallback=?").done(function (respuestaServer) {
+        if (respuestaServer["validation"] === "ok") {
+            $.each(respuestaServer["services"], function (x, services) {
+                var geocoder = new google.maps.Geocoder();
+                var latlng = new google.maps.LatLng(services.USRS_Lat, services.USRS_Long);
 
-function rockAndRoll() {
-    var directionsDisplay = new google.maps.DirectionsRenderer();
-    var directionsService = new google.maps.DirectionsService();
-    var map_ruta = new google.maps.Map(document.getElementById('mapdiv2'), {
-        scrollwheel: false,
-        zoom: 7
-    });
-
-    var request = {
-        origin: $("#ubicacionsos").html(),
-        destination: $('#destinoRuta').val(),
-        travelMode: google.maps.TravelMode.DRIVING,
-        unitSystem: google.maps.DirectionsUnitSystem.METRIC,
-        provideRouteAlternatives: true
-    };
-
-    directionsService.route(request, function (response, status) {
-        if (status == google.maps.DirectionsStatus.OK) {
-            directionsDisplay.setMap(map_ruta);
-            directionsDisplay.setPanel($("#panel_ruta").get(0));
-            directionsDisplay.setDirections(response);
-        } else {
-            alert('No existen rutas entre ambos puntos');
+                geocoder.geocode({'latLng': latlng}, function (results, status) {
+                    if (status === google.maps.GeocoderStatus.OK) {
+                        if (results[0]) {
+                            var name = services.USRS_first_name + " " + services.USRS_last_name;
+                            var location = results[0].formatted_address;
+                            var marcador = new google.maps.Marker({
+                                position: new google.maps.LatLng(services.USRS_Lat, services.USRS_Long),
+                                map: googleMap,
+                                icon: imgContratados
+                                //animation: google.maps.Animation.BOUNCE
+                            });
+                            /*var infowindow_contratados = plugin.google.maps.InfoWindow({
+                                content: contenido
+                            });*/
+                            google.maps.event.addListener(marcador, 'click', function () {
+                                //infowindow_contratados.open(googleMap, marcador);
+                                $("#name").html("<h1>"+name+"</h1>");
+                                $("#location").html(location);
+                                $.mobile.changePage("#driver");
+                            });
+                        } else {
+                            alert('No se encontraron resultados!');
+                        }
+                    } /*else {
+                        alert('Fallo al codificar coordenadas: ' + status);
+                    }*/
+                });
+            });
         }
     });
 }
+
 function hideLoading() {
     $.mobile.loading("hide");
 }
 function stopWatch() {
-    if (watch) {
-        navigator.geolocation.clearWatch(watch);
-        watch = null;
+    if (watchID) {
+        navigator.geolocation.clearWatch(watchID);
+        watchID = null;
     }
 }
 function showError(error) {

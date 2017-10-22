@@ -31,13 +31,29 @@
         "cordova-plugin-dialogs": {
             "PACKAGE_NAME": "com.phonegap.helloworld"
         },
+        "cordova-plugin-file": {
+            "PACKAGE_NAME": "com.phonegap.helloworld"
+        },
+        "cordova-plugin-file-transfer": {
+            "PACKAGE_NAME": "com.phonegap.helloworld"
+        },
         "cordova-plugin-geolocation": {
             "PACKAGE_NAME": "com.phonegap.helloworld"
         },
         "cordova-plugin-globalization": {
             "PACKAGE_NAME": "com.phonegap.helloworld"
         },
+        "cordova-plugin-googlemaps": {
+            "API_KEY_FOR_ANDROID": "AIzaSyDxBXowA9nQJ7yLqitWJDCqPqpfJ_1fNL4",
+            "PACKAGE_NAME": "com.phonegap.helloworld"
+        },
         "cordova-plugin-inappbrowser": {
+            "PACKAGE_NAME": "com.phonegap.helloworld"
+        },
+        "cordova-plugin-media": {
+            "PACKAGE_NAME": "com.phonegap.helloworld"
+        },
+        "cordova-plugin-media-capture": {
             "PACKAGE_NAME": "com.phonegap.helloworld"
         },
         "cordova-plugin-network-information": {
@@ -53,9 +69,6 @@
             "PACKAGE_NAME": "com.phonegap.helloworld"
         },
         "cordova-plugin-whitelist": {
-            "PACKAGE_NAME": "com.phonegap.helloworld"
-        },
-        "cordova-plugin-file": {
             "PACKAGE_NAME": "com.phonegap.helloworld"
         }
     },

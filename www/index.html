@@ -57,42 +57,9 @@
         </div>
         <div data-role="page" id="main">
             <div data-role="header" data-theme="f">
-                <a href="#menu" data-transition="slide" data-icon="carat-l" data-iconpos="notext">Atras</a>
+                <a href="#main" data-transition="slide" data-icon="carat-l" data-iconpos="notext">Atras</a>
                 <a href="#start" id="logout" data-icon="power" data-iconpos="notext" data-transition="slide"></a>
-                <a href="#popupBasic" id="btnEnturne" data-rel="popup" data-icon="enturne-enturnarme" data-iconpos="notext" title="Enturnarme" data-transition="pop"></a>
-            </div>
-            <div id="popupBasic" data-role="popup" data-theme="a" class="ui-btn-right">
-                <div data-role="content" style="background-color:#333333">
-                    <label class="titulos_menu">Configuración actual</label>
-                    <div>
-                        <div id="disponible"></div>
-                        <br>
-                        <label class="titulos_menu" id="ciudad_gps"></label>
-                        <label class="titulos_menu" id="carroceria_enturne"></label>
-                        <label class="titulos_menu" id="carroceria_enturne2"></label>
-                    </div>
-                    <hr style="color:white">
-                    <div id="form_enturne">
-                        <label class="titulos_menu">Cambiar por:</label>
-                        <fieldset class="ui-field-contain">
-                            <select name="enturne_estado" id="enturne_estado">
-                                <option value="Disponible">Disponible</option>
-                                <option value="No Disponible">No Disponible</option>
-                            </select>
-                        </fieldset>
-                        <fieldset class="ui-field-contain">
-                            <label class="titulos_menu">Carroceria 1:</label>
-                            <select name="carroceria" id="carroceria">
-                            </select>
-                        </fieldset>
-                        <fieldset>
-                            <label class="titulos_menu">Carroceria 2:</label>
-                            <select name="carroceria" id="carroceria2">
-                            </select>
-                        </fieldset>
-                        <button class="button button-positive" id="clickUpdateEnturne">Enviar Actualización</button>
-                    </div>
-                </div>
+                <button type="button" class="btn-success">Buscar Moto</button>
             </div>
             <div data-role="content">
                 <div id="city"></div>
@@ -103,15 +70,40 @@
                 <!--<div id="mapdiv2" style="float:left; width:100%; height:500px"></div>-->
             </div>
         </div>
+        <div data-role="page" id="driver">
+            <div data-role="header" data-theme="f">
+                <a href="#main" data-transition="slide" data-icon="carat-l" data-iconpos="notext"></a>
+                <div id="name"></div>
+            </div>
+            <div data-role="content">
+                <input type="hidden" id="vehiculo"/>
+                <input type="hidden" id="oferta"/>
+                <input type="hidden" id="conductor"/>
+                <div id="location"></div>
+                <br>
+                <div id="divImgLogo"></div>
+                <br><br>
+                <div><textarea id="obsv" placeholder="Observaciones"></textarea></div>
+                <br><br>
+                <div class="star-rating">
+                    <a href="#" id="sel1" onclick="calificar_conductor(5);">&#9733;</a>
+                    <a href="#" id="sel2" onclick="calificar_conductor(4);">&#9733;</a>
+                    <a href="#" id="sel3" onclick="calificar_conductor(3);">&#9733;</a>
+                    <a href="#" id="sel4" onclick="calificar_conductor(2);">&#9733;</a>
+                    <a href="#" id="sel5" onclick="calificar_conductor(1);">&#9733;</a>
+                </div>
+                <div>1.&#9733; No me gusta Nada 2. No me ha gustado 3. Esta bien 4. Me ha gustado 5. Me Encanta</div>
+            </div>
+        </div>
+        <script type="text/javascript" src="cordova.js"></script>
         <script src="https://code.jquery.com/jquery-2.1.0.min.js" crossorigin="anonymous"></script>
         <script type="text/javascript" src="js/jquery.mobile-1.4.5.min.js"></script>
-        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDxBXowA9nQJ7yLqitWJDCqPqpfJ_1fNL4">
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false?key=AIzaSyDxBXowA9nQJ7yLqitWJDCqPqpfJ_1fNL4">
         </script>
-        <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="base_url.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript">
-                    app.initialize();
+                        app.initialize();
         </script>
 
     </body>
